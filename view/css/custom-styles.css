@@ -1,0 +1,15 @@
+#pagination {
+	margin: auto;
+	max-width: 600px;
+	flex-wrap: wrap;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.pageBtn {
+	flex: 1;
+	float: none;
+	margin: 0;
+	max-width: 60px;
+	min-width: 40px;
+}

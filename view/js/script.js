@@ -1,4 +1,7 @@
 import loader from "./loader.js";
+import paginate from "./pagination.js";
+import fetchData, { getURL } from "./fetchData.js";
+import render from "./render.js";
 
 loader.hideLoader();
 
@@ -6,30 +9,18 @@ loader.hideLoader();
 const showBtn = document.getElementById("submit-btn");
 const userSelect = document.getElementById("user-select");
 
+const userContext = {};
+
 showBtn.addEventListener("click", getTransactions);
 
-async function getTransactions(id) {
+async function getTransactions() {
 	const userValue = userSelect.value;
-	if (!userSelect) {
+	if (!userValue) {
 		alert("You need to select user to fetch data!");
 		return;
 	}
-
 	const URL = getURL(userValue);
-	const data = await fetchData(URL);
-	debugger;
-}
-
-function getURL(id, page = 1) {
-	return `https://jsonmock.hackerrank.com/api/transactions?userId=${id}&page=${page}`;
-}
-
-async function fetchData(url) {
-	try {
-		const response = await fetch(url);
-		const data = await response.json();
-		return data;
-	} catch (e) {
-		console.log(e);
-	}
+	const { total_pages, data } = await fetchData(URL);
+	paginate(userValue, total_pages);
+	render(data);
 }
